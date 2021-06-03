@@ -22,5 +22,4 @@ class Cabbage extends Item{
     super(x, y);
   }
     
-
 }
