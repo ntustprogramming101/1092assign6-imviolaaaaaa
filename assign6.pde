@@ -147,30 +147,45 @@ void initGame(){
 	for(int i = 0; i < enemies.length; i++){
 		float newX = random(0, width - SOIL_SIZE);
 		float newY = SOIL_SIZE * ( i * 4 + floor(random(4)));
+    
+    if(i== 0 || i ==1){
+      enemies[i] = new Soldier(newX, newY);
+    }else if(i == 2 || i == 3){
+      enemies[i] = new Dinosaur(newX, newY);
+    }else if(i == 4 || i == 5){
+      enemies[i] = new Robot(newX, newY);
+    }
+    
+		//switch(i){
+		//	case 0: case 1: enemies[i] = new Soldier(newX, newY);
+		//	case 2: case 3: enemies[i] = new Dinosaur(newX, newY);
+		//	case 4: case 5: enemies[i] = new Robot(newX, newY);
+		//}
 
-		switch(i){
-			case 0: case 1: enemies[i] = new Soldier(newX, newY);
-			case 2: case 3: // Requirement 4: Create new Dinosaur in row 9 - 16
-			case 4: case 5: // Requirement 5: Create new Robot in row 17 - 25
-		}
-
-
-	}
-
-	// Initialize items and their position
-
-	items = new Item[6];
-
-	for(int i = 0; i < items.length; i++){
-		float newX = SOIL_SIZE * floor(random(SOIL_COL_COUNT));
-		float newY = SOIL_SIZE * ( i * 4 + floor(random(4)));
-
-		// Requirement #3:
-		// 	- Randomly decide if a cabbage or a clock should appear in a random soil every 4 rows (6 items in total)
-		// 	- Create and store cabbages/clocks in the same items array
-		// 	- You can use the above newX/newY to set their position in constructor
 
 	}
+
+  // Initialize Items and Position
+  
+  // create and store cabbages/clocks in the same items array
+  items = new Item[6];
+
+  //random position every 4 rows (6 items in total)
+  for(int i = 0; i < items.length; i++){
+    float newX = SOIL_SIZE * floor(random(SOIL_COL_COUNT));
+    float newY = SOIL_SIZE * ( i * 4 + floor(random(4)));
+    
+    // randomly decide if a cabbage or a clock should appear
+    float itemPick = floor(random(2));
+    if(itemPick == 0){
+      items[i] = new Cabbage(newX, newY);
+    }else{
+      items[i] = new Clock(newX, newY);
+    }
+
+  }
+
+
 }
 
 void draw() {
@@ -235,8 +250,13 @@ void draw() {
 
 		image(sweethome, 0, SOIL_ROW_COUNT * SOIL_SIZE);
 
-		// Items
-		// Requirement #3: Display and check collision with player for each item in Item[] items
+    // Items: display and check collision with player for each item in Item[] items
+
+    for(Item i : items){          //for(int i = 0, i < items.length, i++)
+      if(i == null) continue;
+      i.display();                //items[i].display()
+      i.checkCollision(player);   //items[i].checkCollision(player)
+    }
 
 		// Player
 
@@ -335,8 +355,8 @@ void addTime(float seconds){
 
 boolean isHit(float ax, float ay, float aw, float ah, float bx, float by, float bw, float bh){
 	return	ax + aw > bx &&    // a right edge past b left
-		    ax < bx + bw &&    // a left edge past b right
-		    ay + ah > by &&    // a top edge past b bottom
+		    ax < bx + bw &&      // a left edge past b right
+		    ay + ah > by &&      // a top edge past b bottom
 		    ay < by + bh;
 }
 
