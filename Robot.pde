@@ -7,9 +7,7 @@ class Robot extends Enemy{
 	final int HAND_OFFSET_X_BACKWARD = 16;
   float speed = 2f;
   int cooldownT = 0;
-  int row = (int) y / SOIL_SIZE;
-  float playerCenterX = player.x + player.w/2;  
-  float playerCenterY = player.y + player.h/2; 
+  int row = (int) y / SOIL_SIZE; 
   Laser laser;
   
 
@@ -34,8 +32,8 @@ class Robot extends Enemy{
   
   void update(){
     
-    boolean checkX = (speed > 0 && playerCenterX > x + HAND_OFFSET_X_FORWARD)||
-                     (speed < 0 && playerCenterX < x - HAND_OFFSET_X_BACKWARD);   
+    boolean checkX = (speed > 0 && player.x + player.w/2 > x + HAND_OFFSET_X_FORWARD)||
+                     (speed < 0 && player.x + player.w/2 < x - HAND_OFFSET_X_BACKWARD);   
     boolean checkY = abs((player.row - row)) <= PLAYER_DETECT_RANGE_ROW;
     
     boolean isCooled = (cooldownT/LASER_COOLDOWN == 1); 
@@ -47,10 +45,10 @@ class Robot extends Enemy{
        
         //if is cooled -> then fire the laser
         if(speed > 0){
-          laser.fire(x + HAND_OFFSET_X_FORWARD, y + HAND_OFFSET_Y, playerCenterX, playerCenterY);
+          laser.fire(x + HAND_OFFSET_X_FORWARD, y + HAND_OFFSET_Y, player.x + player.w/2, player.y + player.h/2);
           cooldownT = 0;
         }else if(speed < 0){
-          laser.fire(x + HAND_OFFSET_X_BACKWARD, y + HAND_OFFSET_Y, playerCenterX, playerCenterY);
+          laser.fire(x + HAND_OFFSET_X_BACKWARD, y + HAND_OFFSET_Y, player.x + player.w/2, player.y + player.h/2);
           cooldownT = 0;
         }
         
