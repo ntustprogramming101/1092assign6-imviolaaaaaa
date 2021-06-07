@@ -28,7 +28,7 @@ class Dinosaur extends Enemy{
     boolean playerDetect = false;
   
     if(row == player.row){
-      if( (player.x > x && speed > 0) || (player.x < x && speed < 0) ){
+      if( (player.x > this.x && speed > 0) || (player.x < this.x && speed < 0) ){
           playerDetect = true;
        }
      }else{playerDetect = false;}  
@@ -42,7 +42,7 @@ class Dinosaur extends Enemy{
  
       
     //Boundary Detection
-    if( x <= 0 || x + w >= width){
+    if( this.x <= 0 || this.x + this.w >= width){
          speed *= -1;
     }
     x += speed; 

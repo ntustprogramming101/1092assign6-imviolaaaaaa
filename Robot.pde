@@ -26,7 +26,6 @@ class Robot extends Enemy{
 
     popMatrix();
     
-    laser.display();
   }
   
   
@@ -58,7 +57,7 @@ class Robot extends Enemy{
       x += speed; // if player leave the firing area -> keep moving    
     }  
      
-         
+    laser.display();   
     laser.update();
     
   }
